@@ -1,7 +1,7 @@
-from src.data.data_loader import load_csv_data
-from src.data.splitter import split_features_labels
-from src.models.linear_regression import LinearRegressionModel
-from src.training.evaluate import evaluate_regression_model
+from data.data_loader import load_csv_data
+from data.splitter import split_features_labels
+from models.linear_regression import LinearRegressionModel
+from training.evaluate import evaluate_regression_model
 
 
 def train_baseline_model(data_path: str, target_column: str):

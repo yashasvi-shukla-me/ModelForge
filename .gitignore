@@ -1,6 +1,15 @@
-mlops/
-__pycache__/
-.env
-.DS_Store
-
+# MLflow
 mlruns/
+mlartifacts/
+mlflow.db
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+mlops/
+
+# OS
+.DS_Store
+.vscode/

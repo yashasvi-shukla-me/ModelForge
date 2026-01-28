@@ -1,0 +1,5 @@
+mlruns/
+mlflow.db
+mlops/
+__pycache__/
+*.egg-info/

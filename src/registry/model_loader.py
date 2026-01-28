@@ -1,22 +1,14 @@
-import mlflow
-import mlflow.sklearn
+import joblib
 
 
-def load_model_from_run(run_id: str):
+def load_model_local(path: str):
     """
-    Load a trained sklearn model from an MLflow run.
+    Load a trained model from local filesystem.
 
     Args:
-        run_id (str): MLflow run ID.
+        path (str): Path to model file.
 
     Returns:
         Loaded sklearn model.
     """
-
-    # IMPORTANT: must match the tracking URI used during logging
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
-
-    model_uri = f"runs:/{run_id}/model"
-    model = mlflow.sklearn.load_model(model_uri)
-
-    return model
+    return joblib.load(path)

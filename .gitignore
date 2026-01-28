@@ -3,6 +3,9 @@ mlruns/
 mlartifacts/
 mlflow.db
 
+# Packaging
+*.egg-info/
+
 # Python
 __pycache__/
 *.pyc

@@ -1,12 +1,17 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
+import os
 
 from registry.model_loader import load_model_local
 
-app = FastAPI(title="ModelForge Inference API")
+app = FastAPI(
+    title="ModelForge Inference API",
+    description="Production-ready ML inference service",
+    version="1.0.0"
+)
 
-MODEL_PATH = "models/baseline/model.pkl"
+MODEL_PATH = os.getenv("MODEL_PATH", "models/baseline/model.pkl")
 model = None
 
 

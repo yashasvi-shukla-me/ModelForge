@@ -12,6 +12,7 @@ COPY pyproject.toml requirements.txt ./
 COPY src/ src/
 COPY models/ models/
 
+ENV MODEL_PATH=models/baseline/model.pkl
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt

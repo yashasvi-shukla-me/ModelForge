@@ -1,5 +1,6 @@
 import os
 from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 import joblib
 import numpy as np
 
@@ -9,6 +10,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, "models", "baseline", "model.pkl")
 
 model = None
+
+class PredictionRequest(BaseModel):
+    features: list[float]
+
 
 @app.on_event("startup")
 def load_model():
@@ -29,10 +34,10 @@ def health():
 
 
 @app.post("/predict")
-def predict(features: list[float]):
+def predict(request: PredictionRequest):
     if model is None:
         raise HTTPException(status_code=500, detail="Model not loaded")
 
-    arr = np.array(features).reshape(1, -1)
+    arr = np.array(request.features).reshape(1, -1)
     prediction = model.predict(arr)
     return {"prediction": float(prediction[0])}

@@ -1,37 +1,38 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-import pandas as pd
 import os
+from fastapi import FastAPI, HTTPException
+import joblib
+import numpy as np
 
-from registry.model_loader import load_model_local
+app = FastAPI()
 
-app = FastAPI(
-    title="ModelForge Inference API",
-    description="Production-ready ML inference service",
-    version="1.0.0"
-)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, "models", "baseline", "model.pkl")
 
-MODEL_PATH = os.getenv("MODEL_PATH", "models/baseline/model.pkl")
 model = None
-
-
-class PredictionRequest(BaseModel):
-    a: float
-
-
-class PredictionResponse(BaseModel):
-    prediction: float
-
 
 @app.on_event("startup")
 def load_model():
     global model
-    model = load_model_local(MODEL_PATH)
-    print("Model loaded successfully")
+    try:
+        model = joblib.load(MODEL_PATH)
+        print("Model loaded successfully")
+    except Exception as e:
+        print("Model load failed:", e)
+        raise RuntimeError("Startup failed")
 
 
-@app.post("/predict", response_model=PredictionResponse)
-def predict(request: PredictionRequest):
-    X = pd.DataFrame({"a": [request.a]})
-    pred = model.predict(X)[0]
-    return {"prediction": pred}
+@app.get("/health")
+def health():
+    if model is None:
+        raise HTTPException(status_code=500, detail="Model not loaded")
+    return {"status": "ok"}
+
+
+@app.post("/predict")
+def predict(features: list[float]):
+    if model is None:
+        raise HTTPException(status_code=500, detail="Model not loaded")
+
+    arr = np.array(features).reshape(1, -1)
+    prediction = model.predict(arr)
+    return {"prediction": float(prediction[0])}

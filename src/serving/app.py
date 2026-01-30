@@ -28,6 +28,13 @@ class BatchPredictionResponse(BaseModel):
     batch_size: int
 
 
+def validate_features(features: list[float]):
+    if len(features) != expected_features:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Expected {expected_features} features, got {len(features)}"
+        )
+
 
 @app.on_event("startup")
 def load_model():
@@ -55,11 +62,7 @@ def predict(request: PredictionRequest):
     if model is None:
         raise HTTPException(status_code=500, detail="Model not loaded")
 
-    if len(request.features) != expected_features:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Expected {expected_features} features, got {len(request.features)}"
-        )
+    validate_features(request.features)
 
     arr = np.array(request.features).reshape(1, -1)
     prediction = model.predict(arr)
@@ -76,11 +79,7 @@ def predict_batch(request: BatchPredictionRequest):
 
     # Validate each sample
     for sample in request.samples:
-        if len(sample) != expected_features:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Each sample must have {expected_features} features"
-            )
+        validate_features(sample)
 
     X = np.array(request.samples)
     preds = model.predict(X)

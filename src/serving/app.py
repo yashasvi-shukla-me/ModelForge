@@ -147,3 +147,12 @@ def predict_batch(request: BatchPredictionRequest):
         expected_features=expected_features,
         batch_size=len(preds)
     )
+
+# -------------------------
+# Shutdown event
+# -------------------------
+
+@app.on_event("shutdown")
+def shutdown_event():
+    logger.info("Application shutdown initiated")
+

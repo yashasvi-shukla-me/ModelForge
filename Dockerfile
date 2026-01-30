@@ -4,7 +4,9 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
     build-essential \
+    curl \
     && rm -rf /var/lib/apt/lists/*
+
 
 COPY pyproject.toml requirements.txt ./
 COPY src/ src/
@@ -16,5 +18,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir .
 
 EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+  CMD curl -f http://localhost:8000/health || exit 1
+
 
 CMD ["gunicorn", "src.serving.app:app", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000", "--workers", "1", "--timeout", "120"]

@@ -8,10 +8,10 @@ The system is designed around **clarity**, **realistic deployment** (free tiers,
 
 ## 🚀 Live demo
 
-- **Frontend (Vercel)**: `https://your-modelforge.vercel.app/`
-- **Backend API (Render)**: `https://your-modelforge-api.onrender.com`
+- **Frontend (Vercel)**: [https://modelforge-five.vercel.app/](https://modelforge-five.vercel.app/)
+- **Backend API (Render)**: [https://modelforge-t58s.onrender.com](https://modelforge-t58s.onrender.com)
 
-> After you deploy, replace the placeholders above with your actual URLs. The backend runs on Render’s free tier. If the service has been idle, the **first request may take a few seconds** while the server cold‑starts. Subsequent requests are much faster.
+> The backend runs on Render’s free tier. If the service has been idle, the **first request may take a few seconds** while the server cold‑starts. Subsequent requests are much faster.
 
 ---
 
@@ -82,7 +82,7 @@ Key modules:
 
 ## API overview
 
-Base URL (Render): `https://your-modelforge-api.onrender.com`
+Base URL (Render): `https://modelforge-t58s.onrender.com`
 
 ### `GET /health`
 
@@ -139,7 +139,7 @@ Batch predictions.
 }
 ```
 
-Interactive API docs: `https://your-modelforge-api.onrender.com/docs`
+Interactive API docs: [https://modelforge-t58s.onrender.com/docs](https://modelforge-t58s.onrender.com/docs)
 
 ---
 
@@ -216,7 +216,7 @@ python scripts/export_model.py
 - Environment variables:
   - `NEXT_PUBLIC_SUPABASE_URL` – Supabase project URL.
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` – Supabase anon key.
-  - `NEXT_PUBLIC_API_URL` – Render API base URL (e.g. `https://your-modelforge-api.onrender.com`).
+  - `NEXT_PUBLIC_API_URL` – Render API base URL (e.g. `https://modelforge-t58s.onrender.com`).
 
 ### Supabase
 

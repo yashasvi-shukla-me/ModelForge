@@ -1,0 +1,11 @@
+# Render Blueprint – ModelForge inference API
+# Deploy from Render Dashboard: New → Web Service → Connect repo, use Docker
+
+services:
+  - type: web
+    name: modelforge-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: MODEL_PATH
+        value: models/baseline/model.pkl

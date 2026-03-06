@@ -4,6 +4,7 @@ import joblib
 import numpy as np
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 
@@ -14,7 +15,16 @@ from pydantic import BaseModel
 app = FastAPI()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-MODEL_PATH = os.path.join(BASE_DIR, "models", "baseline", "model.pkl")
+_DEFAULT_MODEL_PATH = os.path.join(BASE_DIR, "models", "baseline", "model.pkl")
+MODEL_PATH = os.environ.get("MODEL_PATH", _DEFAULT_MODEL_PATH)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 model = None
 expected_features = None

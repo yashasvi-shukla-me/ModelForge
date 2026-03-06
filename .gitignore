@@ -3,6 +3,10 @@ mlruns/
 mlartifacts/
 mlflow.db
 
+.env
+.env.local
+.env*.local
+
 # Packaging
 *.egg-info/
 

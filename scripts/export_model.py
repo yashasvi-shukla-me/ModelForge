@@ -14,8 +14,8 @@ def export_model():
     # Ensure output directory exists
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    # Point to MLflow (this works on host)
-    mlflow.set_tracking_uri("http://127.0.0.1:5001")
+    # Point to MLflow (set MLFLOW_TRACKING_URI or default to local)
+    mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", "http://127.0.0.1:5000"))
 
     # Load model from MLflow
     model_uri = f"runs:/{RUN_ID}/model"

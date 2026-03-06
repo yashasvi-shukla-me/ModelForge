@@ -8,13 +8,13 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 
-COPY pyproject.toml requirements.txt ./
+COPY pyproject.toml requirements-serve.txt ./
 COPY src/ src/
 COPY models/ models/
 
 ENV MODEL_PATH=models/baseline/model.pkl
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements-serve.txt
 RUN pip install --no-cache-dir .
 
 EXPOSE 8000

@@ -1,23 +1,26 @@
-import pandas as pd
+import os
+import sys
 
-from registry.model_loader import load_model_from_run
+# Allow importing from src when run from project root
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
+
+import numpy as np
+from registry.model_loader import load_model_local
 
 
 def main():
-    run_id = "aa9a32ea1b0a459d84444bd26b2e41e4"
+    model_path = os.environ.get("MODEL_PATH", "models/baseline/model.pkl")
+    if not os.path.isfile(model_path):
+        print(f"Model not found at {model_path}. Run export_model.py first.")
+        sys.exit(1)
 
-    # Load model from MLflow
-    model = load_model_from_run(run_id)
+    model = load_model_local(model_path)
 
-    # Input data (must match training features)
-    X = pd.DataFrame({
-        "a": [1, 3]
-    })
+    # Input data (must match training feature count)
+    X = np.array([[1], [3]])
 
-    # Run prediction
     predictions = model.predict(X)
-
-    print("Predictions:", predictions)
+    print("Predictions:", predictions.tolist())
 
 
 if __name__ == "__main__":

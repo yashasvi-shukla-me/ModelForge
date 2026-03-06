@@ -1,3 +1,4 @@
+import os
 import mlflow
 import mlflow.sklearn
 
@@ -9,7 +10,7 @@ def run_baseline_experiment(data_path: str, target_column: str):
     Run and log a baseline linear regression experiment.
     """
 
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", "http://127.0.0.1:5000"))
 
     with mlflow.start_run():
 

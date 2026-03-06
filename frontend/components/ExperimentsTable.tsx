@@ -44,10 +44,10 @@ export default function ExperimentsTable({
                 Version
               </th>
               <th className="text-left py-3 px-4 font-medium text-slate-400">
-                Accuracy
+                MSE
               </th>
               <th className="text-left py-3 px-4 font-medium text-slate-400">
-                Loss
+                R²
               </th>
               <th className="text-left py-3 px-4 font-medium text-slate-400">
                 Created
@@ -74,10 +74,10 @@ export default function ExperimentsTable({
                 </td>
                 <td className="py-3 px-4 text-slate-300">{row.version}</td>
                 <td className="py-3 px-4 text-slate-300">
-                  {row.accuracy != null ? `${row.accuracy}%` : "–"}
+                  {row.accuracy != null ? row.accuracy.toFixed(4) : "–"}
                 </td>
                 <td className="py-3 px-4 text-slate-300">
-                  {row.loss != null ? row.loss : "–"}
+                  {row.loss != null ? row.loss.toFixed(2) : "–"}
                 </td>
                 <td className="py-3 px-4 text-slate-400">
                   {formatTime(row.created_at)}

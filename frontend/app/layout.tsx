@@ -4,6 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "ModelForge – AutoML & MLOps Platform",
   description: "Experiment tracking and model deployment dashboard",
+  icons: { icon: "/icon.svg" },
 };
 
 export default function RootLayout({

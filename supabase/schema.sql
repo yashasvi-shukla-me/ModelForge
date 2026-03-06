@@ -31,11 +31,11 @@ CREATE TABLE IF NOT EXISTS experiment_metrics (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- Seed data matching the dashboard image
+-- Seed data: Baseline Regression experiments (MSE in accuracy column, R² in loss column)
 INSERT INTO experiments (name, status, version, accuracy, loss, created_at, project) VALUES
-  ('Image Classification', 'RUNNING', 'v1', 79.3, 0.21, now() - interval '2 days', 'default'),
-  ('Text Classification', 'COMPLETED', 'v2', 85.9, 0.14, now() - interval '1 day', 'default'),
-  ('Image Classification', 'COMPLETED', 'v3', 88.2, 0.12, now() - interval '1 hour', 'default')
+  ('Baseline Regression', 'RUNNING', 'v1', 0.21, 0.79, now() - interval '2 days', 'default'),
+  ('Baseline Regression', 'COMPLETED', 'v2', 0.14, 0.86, now() - interval '1 day', 'default'),
+  ('Baseline Regression', 'COMPLETED', 'v3', 0.12, 0.88, now() - interval '1 hour', 'default')
 ;
 
 -- Deployment badges (run after experiments exist)
@@ -46,26 +46,26 @@ SELECT id, 'DEPLOYED' FROM experiments WHERE version = 'v2'
 UNION ALL
 SELECT id, 'RUNNING' FROM experiments WHERE version = 'v1';
 
--- Epoch metrics for chart (Version 1, 2, 3)
+-- Epoch metrics for chart (MSE per run; accuracy column stores MSE)
 INSERT INTO experiment_metrics (experiment_id, version, epoch, accuracy)
 SELECT e.id, e.version, s.epoch, s.accuracy
 FROM experiments e
 CROSS JOIN (
-  SELECT 1 AS epoch, 20.0 AS accuracy UNION SELECT 2, 45 UNION SELECT 3, 65 UNION SELECT 4, 75 UNION SELECT 5, 79.3
+  SELECT 1 AS epoch, 0.52 AS accuracy UNION SELECT 2, 0.38 UNION SELECT 3, 0.28 UNION SELECT 4, 0.23 UNION SELECT 5, 0.21
 ) s
 WHERE e.version = 'v1'
 UNION ALL
 SELECT e.id, e.version, s.epoch, s.accuracy
 FROM experiments e
 CROSS JOIN (
-  SELECT 1 AS epoch, 25.0 AS accuracy UNION SELECT 2, 50 UNION SELECT 3, 70 UNION SELECT 4, 82 UNION SELECT 5, 85.9
+  SELECT 1 AS epoch, 0.45 AS accuracy UNION SELECT 2, 0.32 UNION SELECT 3, 0.22 UNION SELECT 4, 0.17 UNION SELECT 5, 0.14
 ) s
 WHERE e.version = 'v2'
 UNION ALL
 SELECT e.id, e.version, s.epoch, s.accuracy
 FROM experiments e
 CROSS JOIN (
-  SELECT 1 AS epoch, 30.0 AS accuracy UNION SELECT 2, 55 UNION SELECT 3, 75 UNION SELECT 4, 85 UNION SELECT 5, 88.2
+  SELECT 1 AS epoch, 0.40 AS accuracy UNION SELECT 2, 0.26 UNION SELECT 3, 0.18 UNION SELECT 4, 0.14 UNION SELECT 5, 0.12
 ) s
 WHERE e.version = 'v3';
 

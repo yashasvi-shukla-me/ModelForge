@@ -10,7 +10,7 @@ export default function DeployingBanner() {
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500/20 text-blue-400">
             <span className="text-xs">i</span>
           </span>
-          <span>Deploying – version 3 – Image Classification</span>
+          <span>Deploying – version 3 – Baseline Regression</span>
         </div>
         <Link
           href="/deployments"

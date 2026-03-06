@@ -17,7 +17,7 @@ export default function AccuracyChart({ data }: { data: ChartPoint[] }) {
   return (
     <div className="rounded-xl border border-slate-700/60 bg-surface-800/50 p-4">
       <h3 className="mb-4 text-sm font-semibold text-slate-200">
-        Accuracy over Epochs
+        MSE over training runs
       </h3>
       <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
@@ -29,10 +29,10 @@ export default function AccuracyChart({ data }: { data: ChartPoint[] }) {
               axisLine={{ stroke: "#475569" }}
             />
             <YAxis
-              domain={[0, 100]}
+              domain={[0, "dataMax"]}
               tick={{ fill: "#94a3b8", fontSize: 11 }}
               axisLine={{ stroke: "#475569" }}
-              tickFormatter={(v) => `${v}%`}
+              tickFormatter={(v) => Number(v).toFixed(3)}
             />
             <Tooltip
               contentStyle={{
@@ -41,7 +41,7 @@ export default function AccuracyChart({ data }: { data: ChartPoint[] }) {
                 borderRadius: "8px",
               }}
               labelStyle={{ color: "#94a3b8" }}
-              formatter={(value: number) => [`${value}%`, ""]}
+              formatter={(value: number) => [Number(value).toFixed(4), ""]}
             />
             <Legend
               wrapperStyle={{ paddingTop: 8 }}
